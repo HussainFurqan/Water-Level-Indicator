@@ -1,0 +1,21 @@
+Apparatus:
+Raspberry Pi 3, HC-SR04 ultrasonic sensor, two resistors (470R Ohm and 1K Ohm).
+
+
+The ultrasonic sensor I picked is the HC-SR04, which has four associations that are wired to the GPIO pins of the Raspberry Pi. With the assistance of a Python content, the sensor, which is mounted inside the sump pit confronting the water, sends a sound heartbeat that reflects off the water and back to the sensor. The content screens the measure of time it takes for the sound heartbeat to skip back to the sensor. It ascertains the separation by estimating the time required for the beat to return at the speed of sound. This gives you a perusing of the separation between the sensor and the water. The separation is utilized to figure the water profundity and log a period
+
+In this project I chose GPIO 4 you can use any other pin.
+Pin 1 provides 5V of power to the HC-SR04 sensor. A command is initiated on GPIO17 (Trig) that sets the value of the pin to True for 10 micro seconds. This causes the sensor to initiate a series of sound pulses toward the water for that short amount of time. The Echo pin connected to GPIO27 listens for a return pulse. The difference between the send and the return of the pulse gives a time measurement. The measurement is used to calculate the distance of the water.
+This causes a small problem as Raspberry Pi GPIO pins are rated only for 3.3V. The sensor sends a 5V current back toward GPIO27. A way is needed to throttle the current to 3.3V, which won't damage the Pi. To protect the Pi from damage, simply insert a voltage divider on the Echo line between the sensor and the Pi.
+Voltage Divider
+The purpose of a voltage divider is to reduce the amount of current sent from one component to another. As shown in Figure 1, I soldered a 470R Ohm resistor on the Echo wire and bridged a 1K Ohm resistor between the Echo and Ground wires. This prevents blasting 5V to a pin that is rated only for 3.3V. With these resistors, voltage is actually a touch higher at 3.4V, which is within a tolerable level. All soldered connections are covered with heat-shrinking tube to avoid electrical shorts.
+Calculating resistor types required is beyond the scope of this article, but there are many handy Web-based voltage divider calculators available to determine your requirements. In this example, a 1K and 2K Ohm resistor would reduce the current to 3.333V.
+Wiring
+The Raspberry Pi is connected to the sensor with cable. Because there are four connections, only four wires are used. On each end of the selected wires, I soldered connectors that were compatible with the sensor pins and the pins on the Pi. I used a couple two-pin PC case-fan connectors, salvaged from an old PC, for the connections on the Pi's pins. These connectors are available on-line.
+Procedure
+    1. Run a wire from the ground pin (Pin 6) to the ground/negative rail on the breadboard.
+    2. Run a wire from 5v pin (Pin 2) to the VCC pin on the HC-SR04 distance sensor.
+    3. Run a wire from pin 7 to the TRIG pin on the distance sensor.
+    4. Run a 1k Ω resistor from the ECHO pin on the distance sensor to a spot on the breadboard.
+    5. Run a 2k Ω resistor from the 1k Ω resistor to the ground/negative rail on the Raspberry Pi.
+    6. Run a wire from between the 1k Ω resistor and the 2k Ω resistor to pin 11 on the Raspberry Pi.
